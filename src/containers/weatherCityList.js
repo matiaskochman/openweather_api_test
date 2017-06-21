@@ -14,6 +14,10 @@ class WeatherCityList extends Component{
     //this.renderCityList = this.renderCityList.bind(this);
   }
 
+  timer(){
+    this.props.fetchWeather([3435910,3871336,3936456,3448439]);
+
+  }
   weatherLoad(){
 
     // setInterval(function () {
@@ -24,41 +28,39 @@ class WeatherCityList extends Component{
     // }, 1000);
 
     // //3435910	Buenos Aires	-34.613152	-58.377232	AR
-    // this.props.fetchWeather('3435910');
-    //
     // //3871336	Santiago	-33.456940	-70.648270	CL
-    // this.props.fetchWeather('3871336');
-    //
     // //3936456	Lima	-12.043180	-77.028236	PE
-    // this.props.fetchWeather('3936456');
-    //
     // //3448439	Sao Paulo	-23.547501	-46.636108	BR
-    // this.props.fetchWeather('3448439');
 
-    this.props.fetchWeather([3435910,3871336,3936456,3448439]);
+    setInterval(this.timer.bind(this),3000);
   }
   componentWillMount(){
     this.weatherLoad();
   }
 
-  renderCity(city){
-    console.log('city:',city);
+  renderCity(city,keyVal){
+    var key = city.id + count;
     return (
-      <tr key={city.id}>
+      <tr key={keyVal}>
         <td>{city.name}</td>
         <td>{city.temp}</td>
       </tr>
     );
   }
   renderCityList(){
-    console.log('list:',this.props.weatherState);
     let myObjects = _.sortBy(this.props.weatherState, 'id');
-    console.log('sorted:',myObjects);
     return myObjects.map(this.renderCity);
+    // return myObjects.map(function(value,index){
+    //   console.log('val:',value);
+    //   console.log('index:',index);
+    //
+    //   this.renderCity(value,index);
+    // });
+
   }
 
   render(){
-    console.log('reder:',count++);
+    count++;
     return(
       <div>
       <table className="table table-hover">
