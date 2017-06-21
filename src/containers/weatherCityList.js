@@ -11,31 +11,23 @@ class WeatherCityList extends Component{
 
   constructor(){
     super();
-    //this.renderCityList = this.renderCityList.bind(this);
+    localStorage.setItem('temperature_log', []);
   }
 
-  timer(){
-    this.props.fetchWeather([3435910,3871336,3936456,3448439]);
-
-  }
   weatherLoad(){
-
-    // setInterval(function () {
-    //   this.setState({
-    //     ticks: this.state.ticks + 1
-    //   });
-    //   localStorage.setItem('ticker', JSON.stringify(this.state));
-    // }, 1000);
-
     // //3435910	Buenos Aires	-34.613152	-58.377232	AR
     // //3871336	Santiago	-33.456940	-70.648270	CL
     // //3936456	Lima	-12.043180	-77.028236	PE
     // //3448439	Sao Paulo	-23.547501	-46.636108	BR
+    this.props.fetchWeather([3435910,3871336,3936456,3448439]);
 
-    setInterval(this.timer.bind(this),3000);
+  }
+  timer(){
+    setInterval(this.weatherLoad.bind(this),3000);
   }
   componentWillMount(){
-    this.weatherLoad();
+    this.props.fetchWeather([3435910,3871336,3936456,3448439]);
+    this.timer();
   }
 
   renderCity(city,keyVal){
@@ -50,13 +42,6 @@ class WeatherCityList extends Component{
   renderCityList(){
     let myObjects = _.sortBy(this.props.weatherState, 'id');
     return myObjects.map(this.renderCity);
-    // return myObjects.map(function(value,index){
-    //   console.log('val:',value);
-    //   console.log('index:',index);
-    //
-    //   this.renderCity(value,index);
-    // });
-
   }
 
   render(){

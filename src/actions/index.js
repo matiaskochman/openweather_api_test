@@ -10,13 +10,13 @@ export const FETCH_WEATHER = 'FETCH_WEATHER';
 export function fetchWeather(idArray){
   var dateNow = new Date();
 
-  let urlArray = [] // unknown # of urls (1 or more)
+  let urlArray = []
   let promiseArray = [];
   for (let countryId of idArray) {
     urlArray.push(`${WEATHER_URL}&id=${countryId}`);
   }
 
-  promiseArray = urlArray.map(url_by_id => axios.get(url_by_id)); // or whatever
+  promiseArray = urlArray.map(url_by_id => axios.get(url_by_id));
 
   return (dispatch) => {
     axios.all(promiseArray)
@@ -32,24 +32,28 @@ export function fetchWeather(idArray){
             var obj = {id:2,name:data.name,temp:data.main.temp,date:dateNow}
             array.push(obj);
         }else if(data.name === 'Santiago'){
-
           var obj = {id:1,name:data.name,temp:data.main.temp,date:dateNow}
           array.push(obj);
-
         }else if(data.name === 'Lima'){
-
           var obj = {id:3,name:data.name,temp:data.main.temp,date:dateNow}
           array.push(obj);
-
         }else if(data.name === 'Sao Paulo'){
-
           var obj = {id:4,name:data.name,temp:data.main.temp,date:dateNow}
           array.push(obj);
-
         }
       }
 
-      localStorage.setItem('temperature_log', array);
+      var storedArray = localStorage.getItem('temperature_log');
+
+      if(storedArray){
+          var newArray = JSON.parse(storedArray);
+          newArray.push(array);
+          localStorage.setItem('temperature_log', JSON.stringify(newArray));
+      }else{
+          localStorage.setItem('temperature_log', JSON.stringify(array));
+
+      }
+
       dispatch({
         type:FETCH_WEATHER,
         payload:array
