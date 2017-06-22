@@ -4,7 +4,6 @@ import {FETCH_WEATHER_BSAS,FETCH_WEATHER_STGO,FETCH_WEATHER_LMA
 export default function(state = [],action){
   switch (action.type) {
     case FETCH_WEATHER:
-        console.log('state:',state);
         return [...action.payload];
         break;
 
