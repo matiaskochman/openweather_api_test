@@ -35,7 +35,7 @@ class WeatherCityList extends Component{
     return (
       <tr key={keyVal}>
         <td>{city.name}</td>
-        <td>{city.temp}</td>
+        <td>{city.temp} &deg;C</td>
       </tr>
     );
   }

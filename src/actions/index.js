@@ -8,17 +8,19 @@ export const FETCH_WEATHER = 'FETCH_WEATHER';
 
 
 export function fetchWeather(idArray){
-  var dateNow = new Date();
 
-  let urlArray = []
-  let promiseArray = [];
-  for (let countryId of idArray) {
-    urlArray.push(`${WEATHER_URL}&id=${countryId}`);
-  }
 
-  promiseArray = urlArray.map(url_by_id => axios.get(url_by_id));
 
   return (dispatch) => {
+    var dateNow = new Date();
+
+    let urlArray = []
+    let promiseArray = [];
+    for (let countryId of idArray) {
+      urlArray.push(`${WEATHER_URL}&id=${countryId}&units=metric`);
+    }
+
+    promiseArray = urlArray.map(url_by_id => axios.get(url_by_id));
     axios.all(promiseArray)
     .then(function(results) {
       let cities = results.map(r => {
@@ -54,13 +56,16 @@ export function fetchWeather(idArray){
 
       }
 
-      dispatch({
-        type:FETCH_WEATHER,
-        payload:array
-      });
-
+      dispatch(fetchWeatherArray(array));
     });
 
+  }
+
+  function fetchWeatherArray(array){
+    return {
+      type:FETCH_WEATHER,
+      payload:array
+    }
   }
 
 }
